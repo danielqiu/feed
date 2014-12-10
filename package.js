@@ -1,7 +1,7 @@
 Package.describe({
   name: 'danielqiu:feed',
   summary: 'Feed reader for RSS, ATOM and Twitter streaming.',
-  version: '0.0.1',
+  version: '0.0.2',
   author: "Daniel Qiu",
   git: 'https://github.com/danielqiu/feed.git'
 });
