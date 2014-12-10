@@ -1,6 +1,6 @@
 Feed
 ======
-Feed reader for RSS, ATOM and Twitter streaming.
+Feed reader is a Meteor package for reading feeds, such as RSS, ATOM and Twitter streaming.
 
 #Usage
 
