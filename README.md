@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/danielqiu/feed.png?branch=master)](https://travis-ci.org/danielqiu/feed)
+
 Feed
 ======
 Feed reader is a Meteor package for reading feeds, such as RSS, ATOM and Twitter streaming.
