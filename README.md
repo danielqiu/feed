@@ -75,10 +75,10 @@ function feedReader() {
 ##Settings.json
 ```
 {
-    "twitter_consumer_key": "<Your twitter consumer key>",
-    "twitter_consumer_secret": "<Your twitter consumer secret>",
-    "twitter_access_token": "<Your twitter access token>",
-    "twitter_access_token_secret": "<Your twitter access token aecret>",
+    "twitter_consumer_key": "Your twitter consumer key here",
+    "twitter_consumer_secret": "Your twitter consumer secret here",
+    "twitter_access_token": "Your twitter access token here",
+    "twitter_access_token_secret": "Your twitter access token aecret here",
 
     "github_id": "daniel's github",
     "github_category": "Github",
