@@ -2,7 +2,7 @@
 language: node_js
 
 # The node.js version to install
-node_js: "0.10.29"
+node_js: "0.10.33"
 
 # All installation prerequisites before running your build / tests go here.
 install:
