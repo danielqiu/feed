@@ -3,7 +3,7 @@ base64@1.0.2
 binary-heap@1.0.2
 callback-hook@1.0.2
 check@1.0.3
-danielqiu:feed@0.0.3
+danielqiu:feed@0.0.4
 dbeath:feedparser@0.16.6
 ddp@1.0.13
 ejson@1.0.5
@@ -11,7 +11,7 @@ follower-livedata@1.0.3
 geojson-utils@1.0.2
 id-map@1.0.2
 json@1.0.2
-local-test:danielqiu:feed@0.0.3
+local-test:danielqiu:feed@0.0.4
 logging@1.0.6
 meteor@1.1.4
 minimongo@1.0.6
