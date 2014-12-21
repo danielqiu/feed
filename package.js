@@ -1,7 +1,7 @@
 Package.describe({
   name: 'danielqiu:feed',
   summary: 'Feed reader for RSS, ATOM and Twitter streaming.',
-  version: '0.0.3',
+  version: '0.0.4',
   author: "Daniel Qiu",
   git: 'https://github.com/danielqiu/feed.git'
 });
@@ -14,14 +14,14 @@ Package.onUse(function(api) {
   api.use('mrt:twit@0.2.0');
 
   // Specify the source code for the package.
-  api.addFiles('danielqiu:feed.js');
-  api.addFiles('feed-reader/collections.js');
-  api.addFiles('feed-reader/feedTypeEnum.js');
-  api.addFiles('feed-reader/createFeed.js');
-  api.addFiles('feed-reader/fetchFeedAtom.js');
-  api.addFiles('feed-reader/fetchTweets.js');
-  api.addFiles('feed-reader/processFeed.js');  
-  api.addFiles('feed-reader/saveFeed.js');
+  api.addFiles(['danielqiu:feed.js',
+                'feed-reader/collections.js',
+                'feed-reader/feedTypeEnum.js',
+                'feed-reader/createFeed.js',
+                'feed-reader/fetchFeedAtom.js',
+                'feed-reader/fetchTweets.js',
+                'feed-reader/processFeed.js',
+                'feed-reader/saveFeed.js'], 'server');
   
   // Export the object 'Feed' to packages or apps that use this package.
   api.export('Feed', 'server');
