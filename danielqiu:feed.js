@@ -26,7 +26,7 @@ Feed.createRssFeed = function(feed) {
     createFeed(feed);
 };
 
-// Variable to take values of Twitter parameters, 
+// Variable to take values of Twitter parameters,
 // such as consumer key, consumer secret, access token , access token secret
 // and screen name
 Twitter = {};
@@ -38,29 +38,42 @@ Feed.initTwitterFeed = function(arguments) {
     Twitter.access_token = arguments.access_token;
     Twitter.access_token_secret = arguments.access_token_secret;
 
-    Twitter.screen_name = arguments.screen_name;   
+    Twitter.screen_name = arguments.screen_name;
 };
+
+var refreshIntervalIds = {};
 
 Feed.read = function() {
 
     console.log("Reading feed...");
 
-    // get all the feeds details    
+    // get all the feeds details
     var feeds = Feeds.find().fetch();
 
     _.each(feeds, function(feed) {
         // get the refresh interval from feed setting
         // if the refresh_interval is not set, set to default 10 seconds
         var refresh_interval = feed.refresh_interval || 10000 ;
-    
-        Meteor.setInterval(function() {
+
+        var intervalId = Meteor.setInterval(function() {
             feed.latest_date = null;
-            
+
             if (feed.type === FeedType.TWITTER) {
                 fetchTweets(feed);
             } else if (feed.type === FeedType.ATOM || feed.type === FeedType.RSS) {
                 fetchAtomRss(feed);
             }
         }, refresh_interval);
+
+        refreshIntervalIds[feed._id] = intervalId;
+
     })
+};
+
+Feed.stopReading = function() {
+    if (!_.isEmpty(refreshIntervalIds)) {
+        _.each(_.values(refreshIntervalIds), function(intervalId) {
+          Meteor.clearInterval(intervalId);
+        });
+    }
 };
