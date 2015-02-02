@@ -9,6 +9,8 @@ fetchAtomRss = function (feed) {
     var req = request(feed.link),
     feedparser = new Feedparser();
 
+    //req.setMaxListeners(0);
+
     req.on('error', function (error) {
         // handle any request errors
         console.log("req error: " + error);
@@ -37,10 +39,10 @@ fetchAtomRss = function (feed) {
         // This is where the action is!
         var stream = this,
             meta = this.meta, // **NOTE** the "meta" is always available in the context of the feedparser instance
-            item;
-
+            item = '';
         while (item = this.read()) {
             processFeed(item, feed);
         }
+
     });
 }

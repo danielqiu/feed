@@ -56,6 +56,7 @@ Feed.read = function() {
         var refresh_interval = feed.refresh_interval || 10000 ;
 
         var intervalId = Meteor.setInterval(function() {
+
             feed.latest_date = null;
 
             if (feed.type === FeedType.TWITTER) {
@@ -67,13 +68,15 @@ Feed.read = function() {
 
         refreshIntervalIds[feed._id] = intervalId;
 
-    })
+    });
+
 };
 
 Feed.stopReading = function() {
     if (!_.isEmpty(refreshIntervalIds)) {
         _.each(_.values(refreshIntervalIds), function(intervalId) {
-          Meteor.clearInterval(intervalId);
+            Meteor.clearInterval(intervalId);
         });
+        console.log("Stopped " + _.keys(refreshIntervalIds).length + " feeds");
     }
 };
