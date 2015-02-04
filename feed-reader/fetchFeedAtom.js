@@ -42,5 +42,6 @@ fetchAtomRss = function (feed) {
         while (item = this.read()) {
             processFeed(item, feed);
         }
+
     });
 }

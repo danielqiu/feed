@@ -26,7 +26,7 @@ Feed.createRssFeed = function(feed) {
     createFeed(feed);
 };
 
-// Variable to take values of Twitter parameters, 
+// Variable to take values of Twitter parameters,
 // such as consumer key, consumer secret, access token , access token secret
 // and screen name
 Twitter = {};
@@ -38,29 +38,52 @@ Feed.initTwitterFeed = function(arguments) {
     Twitter.access_token = arguments.access_token;
     Twitter.access_token_secret = arguments.access_token_secret;
 
-    Twitter.screen_name = arguments.screen_name;   
+    Twitter.screen_name = arguments.screen_name;
 };
+
+Feed.refreshIntervalHandles = {};
 
 Feed.read = function() {
 
     console.log("Reading feed...");
 
-    // get all the feeds details    
+    function fetchEntries(feed) {
+        feed.latest_date = null;
+        if (feed.type === FeedType.TWITTER) {
+            fetchTweets(feed);
+        } else if (feed.type === FeedType.ATOM || feed.type === FeedType.RSS) {
+            fetchAtomRss(feed);
+        }
+    }
+
+    // get all the feeds details
     var feeds = Feeds.find().fetch();
 
     _.each(feeds, function(feed) {
+
+        fetchEntries(feed);
+
         // get the refresh interval from feed setting
         // if the refresh_interval is not set, set to default 10 seconds
         var refresh_interval = feed.refresh_interval || 10000 ;
-    
-        Meteor.setInterval(function() {
-            feed.latest_date = null;
-            
-            if (feed.type === FeedType.TWITTER) {
-                fetchTweets(feed);
-            } else if (feed.type === FeedType.ATOM || feed.type === FeedType.RSS) {
-                fetchAtomRss(feed);
-            }
+        var intervalHandle = Meteor.setInterval(function() {
+            fetchEntries(feed);
         }, refresh_interval);
-    })
+
+        Feed.refreshIntervalHandles[feed._id] = intervalHandle;
+
+    });
+
+};
+
+Feed.stopReading = function() {
+    if (!_.isEmpty(Feed.refreshIntervalHandles)) {
+        _.each(_.values(Feed.refreshIntervalHandles), function(intervalHandle) {
+            Meteor.clearInterval(intervalHandle);
+        });
+        console.log(
+            "Stopped " + _.keys(Feed.refreshIntervalHandles).length + " feeds"
+        );
+        Feed.refreshIntervalHandles = {};
+    }
 };
