@@ -37,7 +37,8 @@ fetchAtomRss = function (feed) {
         // This is where the action is!
         var stream = this,
             meta = this.meta, // **NOTE** the "meta" is always available in the context of the feedparser instance
-            item = '';
+            item;
+
         while (item = this.read()) {
             processFeed(item, feed);
         }
