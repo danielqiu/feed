@@ -1,9 +1,9 @@
 Tinytest.add(
-	'Feed - Test github Feed fetching and cancelling',
-	function (test) {
+  'Feed - Test github Feed fetching and cancelling',
+  function (test) {
 
-		var Feeds = new Meteor.Collection("feeds_test");
-		var FeedEntries = new Meteor.Collection("feed_entries_test");
+    var Feeds = new Meteor.Collection("feeds_test");
+    var FeedEntries = new Meteor.Collection("feed_entries_test");
 
     var collections = {
         feeds: Feeds,
@@ -30,28 +30,28 @@ Tinytest.add(
     var feed_entries_created = FeedEntries.find();
     test.isNotNull(feed_entries_created, "feed entries weren't created");
 
-		test.isFalse(
-				_.isEmpty(Feed.refreshIntervalHandles),
-				"Feed refresh interval handles should exist"
-		);
+    test.isFalse(
+        _.isEmpty(Feed.refreshIntervalHandles),
+        "Feed refresh interval handles should exist"
+    );
 
-		var clearIntervalCount = 0;
-		Meteor.clearInterval = function () {
-				clearIntervalCount += 1;
-		};
+    var clearIntervalCount = 0;
+    Meteor.clearInterval = function () {
+        clearIntervalCount += 1;
+    };
 
-		test.equal(
-				clearIntervalCount,
-				0,
-				"clearInterval should not have been called yet"
-		);
+    test.equal(
+        clearIntervalCount,
+        0,
+        "clearInterval should not have been called yet"
+    );
 
-		Feed.stopReading();
+    Feed.stopReading();
 
-		test.equal(clearIntervalCount, 1, "clearInterval should have been called");
-		test.isTrue(
-				_.isEmpty(Feed.refreshIntervalHandles),
-				"Feed refresh interval handles should not exist"
-		);
+    test.equal(clearIntervalCount, 1, "clearInterval should have been called");
+    test.isTrue(
+        _.isEmpty(Feed.refreshIntervalHandles),
+        "Feed refresh interval handles should not exist"
+    );
 
 });
