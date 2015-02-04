@@ -9,8 +9,6 @@ fetchAtomRss = function (feed) {
     var req = request(feed.link),
     feedparser = new Feedparser();
 
-    //req.setMaxListeners(0);
-
     req.on('error', function (error) {
         // handle any request errors
         console.log("req error: " + error);

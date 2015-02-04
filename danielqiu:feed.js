@@ -41,42 +41,49 @@ Feed.initTwitterFeed = function(arguments) {
     Twitter.screen_name = arguments.screen_name;
 };
 
-var refreshIntervalIds = {};
+Feed.refreshIntervalHandles = {};
 
 Feed.read = function() {
 
     console.log("Reading feed...");
 
+    function fetchEntries(feed) {
+        feed.latest_date = null;
+        if (feed.type === FeedType.TWITTER) {
+            fetchTweets(feed);
+        } else if (feed.type === FeedType.ATOM || feed.type === FeedType.RSS) {
+            fetchAtomRss(feed);
+        }
+    }
+
     // get all the feeds details
     var feeds = Feeds.find().fetch();
 
     _.each(feeds, function(feed) {
+
+        fetchEntries(feed);
+
         // get the refresh interval from feed setting
         // if the refresh_interval is not set, set to default 10 seconds
         var refresh_interval = feed.refresh_interval || 10000 ;
-
-        var intervalId = Meteor.setInterval(function() {
-
-            feed.latest_date = null;
-
-            if (feed.type === FeedType.TWITTER) {
-                fetchTweets(feed);
-            } else if (feed.type === FeedType.ATOM || feed.type === FeedType.RSS) {
-                fetchAtomRss(feed);
-            }
+        var intervalHandle = Meteor.setInterval(function() {
+            fetchEntries(feed);
         }, refresh_interval);
 
-        refreshIntervalIds[feed._id] = intervalId;
+        Feed.refreshIntervalHandles[feed._id] = intervalHandle;
 
     });
 
 };
 
 Feed.stopReading = function() {
-    if (!_.isEmpty(refreshIntervalIds)) {
-        _.each(_.values(refreshIntervalIds), function(intervalId) {
-            Meteor.clearInterval(intervalId);
+    if (!_.isEmpty(Feed.refreshIntervalHandles)) {
+        _.each(_.values(Feed.refreshIntervalHandles), function(intervalHandle) {
+            Meteor.clearInterval(intervalHandle);
         });
-        console.log("Stopped " + _.keys(refreshIntervalIds).length + " feeds");
+        console.log(
+            "Stopped " + _.keys(Feed.refreshIntervalHandles).length + " feeds"
+        );
+        Feed.refreshIntervalHandles = {};
     }
 };
