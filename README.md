@@ -98,3 +98,6 @@ function feedReader() {
     "twitter_screen_name": "danqiu"
 }
 ```
+
+##Example
+Please visit [Feed-demo](https://github.com/danielqiu/feed-demo) to see the example.
