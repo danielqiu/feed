@@ -13,13 +13,13 @@ meteor add danielqiu:feed
 ##Collection
 Feed, such as Github, Twitter, Stackoverflow, is stored in the Feeds collection. Feed entries of each feed is stored in the FeedEntries collection. Create the two collections in the /lib directory which is shared by the server and client.
 
-```
+```javascript
 Feeds = new Meteor.Collection("feeds");
 FeedEntries = new Meteor.Collection("feed_entries");
 ```
 
 ##Create Feed, init Feed and invoke Feed.read()
-```
+```javascript
 function feedReader() {
 
     // pass the created collections to Feed.collections()
@@ -73,7 +73,7 @@ function feedReader() {
 }
 ```
 ##Settings.json
-```
+```json
 {
     "twitter_consumer_key": "Your twitter consumer key here",
     "twitter_consumer_secret": "Your twitter consumer secret here",
